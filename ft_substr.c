@@ -1,25 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/13 00:25:02 by yenyilma          #+#    #+#             */
+/*   Updated: 2024/11/14 01:11:05 by yenyilma         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*str;
+	char	*sub_str;
 	size_t	i;
+	size_t	slen;
 
-	if (!s)
-		return (0);
-	if (ft_strlen(s) < len)
-		len = ft_strlen(s);
-	if (start >= ft_strlen(s))
-		return (ft_strdup(""));
-	str = malloc(sizeof(char) * len + 1);
-	if (!str)
-		return (NULL);
+	slen = ft_strlen(s);
 	i = 0;
-	while (i < len && *(s + start + i))
+	if (slen <= start)
+		return (ft_strdup(""));
+	if (slen < start + len)
+		len = slen - start;
+	sub_str = (char *) malloc (sizeof(char) * len + 1);
+	if (!sub_str)
+		return (NULL);
+	while (i < len)
 	{
-		*(str + i) = *(s + start + i);
+		sub_str[i] = s[start];
 		i++;
+		start++;
 	}
-	*(str + i) = '\0';
-	return (str);
+	sub_str[i] = 0;
+	return (sub_str);
 }

@@ -1,65 +1,103 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/13 00:23:10 by yenyilma          #+#    #+#             */
+/*   Updated: 2024/11/14 01:00:36 by yenyilma         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-static int	ft_split_string_counter(char const *s, char c)
+static void	*delete(char **s, int len)
 {
 	int	i;
-	int	string_count;
 
 	i = 0;
-	string_count = 0;
-	while (s[i])
+	while (i < len)
 	{
-		if (s[i] == c && i > 0 && s[i - 1] != c)
-		{
-			while (s[i + 1] != '\0' && s[i] == c)
-				i++;
-			string_count++;
-		}
+		free(s[i]);
 		i++;
 	}
-	if (i > 0 && s[i - 1] != c)
-		string_count++;
-	return (string_count);
+	free (s);
+	return (NULL);
 }
 
-static void	ft_split_string_appender(char const *s, char **str,
-	int string_count, char c)
+static int	counter(const char *s, char c)
 {
 	int	i;
-	int	start;
-	int	strc;
+	int	count;
 
-	start = 0;
-	strc = 0;
 	i = 0;
-	while (s[i] && strc < string_count)
+	count = 0;
+	while (s[i])
 	{
-		if (s[i] != c && i > 0 && s[i - 1] == c)
-			start = i;
-		if (((s[i] == c && i > 0) && (s[i - 1] != c)) || s[i + 1] == '\0')
+		while (s[i] && s[i] == c)
+			i++;
+		if (s[i] != c && s[i])
 		{
-			if (s[i] != c && s[i + 1] == '\0')
-				str[strc] = ft_substr(s, start, i - start + 1);
-			else
-				str[strc] = ft_substr(s, start, i - start);
-			while (s[i + 1] != '\0' && s[i + 1] == c)
+			count++;
+			while (s[i] && s[i] != c)
 				i++;
-			strc++;
 		}
-		i++;
 	}
+	return (count);
+}
+
+static char	*word_filler(const char *s, char c)
+{
+	int			letter_count;
+	int			i;
+	char		*string;
+	const char	*copied;
+
+	i = 0;
+	letter_count = 0;
+	copied = s;
+	while (*s != c && *s)
+	{
+		letter_count++;
+		s++;
+	}
+	string = (char *) malloc (sizeof(char) * (letter_count + 1));
+	if (!string)
+		return (NULL);
+	while (i < letter_count)
+	{
+		string[i++] = *copied++;
+	}
+	string[i] = 0;
+	return (string);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**str;
-	int		string_count;
+	char		**strings;
+	int			i;
+	int			word_count;
 
-	string_count = ft_split_string_counter(s, c);
-	str = malloc(sizeof(char *) * (string_count + 1));
-	if (!str)
+	i = 0;
+	word_count = counter(s, c);
+	strings = (char **) malloc (sizeof(char *) * (word_count + 1));
+	if (!strings)
 		return (NULL);
-	str[string_count] = NULL;
-	ft_split_string_appender(s, str, string_count, c);
-	return (str);
+	while (i < word_count)
+	{
+		while (*s && *s == c)
+			s++;
+		if (*s)
+		{
+			strings[i] = word_filler(s, c);
+			if (!strings[i])
+				return (delete (strings, i));
+			while (*s && *s != c)
+				s++;
+		}
+		i++;
+	}
+	strings[i] = NULL;
+	return (strings);
 }

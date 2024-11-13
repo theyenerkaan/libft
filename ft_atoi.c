@@ -1,25 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
+/*   Updated: 2024/11/14 00:52:59 by yenyilma         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 int	ft_atoi(const char *str)
 {
 	int	result;
 	int	sign;
-	int	i;
 
-	i = 0;
 	sign = 1;
 	result = 0;
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	if (str[i] == '+' || str[i] == '-')
+	while (*str == 32 || (*str >= 9 && *str <= 13))
+		str++;
+	if (*str == 45 || *str == 43)
 	{
-		if (str[i] == '-')
-			sign *= -1;
-		i++;
+		if (*str == 45)
+			sign = -1;
+		str++;
 	}
-	while (str[i] >= '0' && str[i] <= '9')
+	while (*str >= 48 && *str <= 57)
 	{
-		result *= 10;
-		result += str[i] - 48;
-		i++;
+		result = result * 10 + (*str - 48);
+		str++;
 	}
 	return (result * sign);
 }
