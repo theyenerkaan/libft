@@ -6,7 +6,7 @@
 #    By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 01:07:09 by yenyilma          #+#    #+#              #
-#    Updated: 2024/11/14 01:07:10 by yenyilma         ###   ########.fr        #
+#    Updated: 2024/12/13 03:56:24 by yenyilma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,5 +61,3 @@ fclean :
 	@rm -rf  ${NAME} ${OBJ} ${BONUS_OBJ}
 
 re : fclean all
-
-.PHONY: all re clean fclean bonus
