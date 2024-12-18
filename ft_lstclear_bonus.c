@@ -6,7 +6,7 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 00:56:07 by yenyilma          #+#    #+#             */
-/*   Updated: 2024/11/14 00:56:08 by yenyilma         ###   ########.fr       */
+/*   Updated: 2024/12/18 05:42:54 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,15 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
 	t_list	*temp;
 
-	while (*lst != 0)
+	if (del == NULL)
+		return ;
+	if (lst == NULL || *lst == NULL)
+		return ;
+	while (*lst != NULL)
 	{
-		temp = (*lst)->next;
-		ft_lstdelone(*lst, del);
-		(*lst) = temp;
+		temp = *lst;
+		del((*lst)->content);
+		*lst = (*lst)->next;
+		free(temp);
 	}
 }
