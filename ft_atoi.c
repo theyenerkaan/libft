@@ -6,9 +6,11 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/08/08 17:48:02 by yenyilma         ###   ########.fr       */
+/*   Updated: 2025/08/08 17:51:02 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 static void	check_overflow(long digit, long result, long sign)
 {
@@ -35,7 +37,7 @@ int	ft_atoi(const char *str)
 		str++;
 	}
 	if (!ft_isdigit(*str))
-		exit(EXIT_FAILURE);
+		exit(1);
 	while (*str >= 48 && *str <= 57)
 	{
 		digit = *str - 48;
