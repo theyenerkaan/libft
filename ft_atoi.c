@@ -6,14 +6,23 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2024/11/14 00:52:59 by yenyilma         ###   ########.fr       */
+/*   Updated: 2025/08/08 17:48:02 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+static void	check_overflow(long digit, long result, long sign)
+{
+	if (sign == -1 && result > (2147483648 - digit) / 10)
+		exit(1);
+	else if (sign == 1 && result > (2147483647 - digit) / 10)
+		exit(1);
+}
+
 int	ft_atoi(const char *str)
 {
-	int	result;
-	int	sign;
+	long	result;
+	long	sign;
+	long	digit;
 
 	sign = 1;
 	result = 0;
@@ -25,9 +34,13 @@ int	ft_atoi(const char *str)
 			sign = -1;
 		str++;
 	}
+	if (!ft_isdigit(*str))
+		exit(EXIT_FAILURE);
 	while (*str >= 48 && *str <= 57)
 	{
-		result = result * 10 + (*str - 48);
+		digit = *str - 48;
+		check_overflow(digit, result, sign);
+		result = result * 10 + digit;
 		str++;
 	}
 	return (result * sign);
